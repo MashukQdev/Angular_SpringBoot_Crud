@@ -1,0 +1,42 @@
+.dialog-content {
+    font-size: 18px;
+    max-height: calc(100vh - 200px); /* Adjust the height as needed */
+    overflow-y: hidden; /* Enable vertical scrolling if content overflows */
+  }
+  
+  .dialog-actions {
+    justify-content: flex-end;
+  }
+  
+  .no-button {
+    color: #007bff;
+    background-color: transparent;
+  }
+  
+  .no-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .yes-button {
+    color: #fff;
+    background-color: #007bff;
+  }
+  
+  .yes-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .popup-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }

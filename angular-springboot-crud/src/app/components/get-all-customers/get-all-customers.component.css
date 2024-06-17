@@ -1,0 +1,100 @@
+.container {
+  margin-top: 20px;
+  justify-content: center; /* Center the table container */
+  min-width: 1700px;
+}
+
+.add-customer-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  width: 100%; /* Ensure the button container takes the full width */
+}
+
+.add-customer-content {
+  text-align: center;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center; /* Center the table within the container */
+}
+
+.mat-table {
+  width: 100%;
+}
+
+.mat-cell,
+.mat-header-cell {
+  padding: 8px 16px !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+}
+
+.mat-header-cell {
+  font-weight: bold !important;
+}
+
+.mat-row:hover {
+  background-color: #f5f5f5 !important;
+}
+
+.mat-icon-button {
+  margin: 0 4px !important;
+}
+
+.mat-icon {
+  font-size: 20px !important;
+}
+
+.add-customer-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.add-customer-button .add-customer-text {
+  margin-right: 8px;
+}
+
+.mat-column-id {
+  width: 60px !important;
+}
+
+.mat-column-firstName {
+  width: 160px !important;
+}
+
+.mat-column-lastName {
+  width: 160px !important;
+}
+
+.mat-column-dateOfBirth {
+  width: 120px !important;
+}
+
+.mat-column-mobileNo {
+  width: 140px !important;
+}
+
+.mat-column-address {
+  width: 320px !important;
+}
+
+.mat-column-age {
+  width: 70px !important;
+}
+
+.mat-column-gender {
+  width: 90px !important;
+}
+
+.mat-column-email {
+  width: 240px !important;
+}
+
+.mat-column-actions {
+  width: 150px !important;
+}
