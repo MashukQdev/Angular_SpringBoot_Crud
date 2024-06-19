@@ -45,7 +45,7 @@ export class CustomerService {
    * @returns An Observable string response from the server in plain text format.
    */
   deleteCustomer(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.basic_url}/customer/delete/${id}`, {responseType: 'text' as 'json'});
+    return this.http.delete<string>(`${this.basic_url}/delete/${id}`, {responseType: 'text' as 'json'});
   }
 
 }
