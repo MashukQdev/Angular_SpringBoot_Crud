@@ -1,0 +1,144 @@
+<div class="registration-form">
+
+  <!-- Close icon -->
+  <button mat-icon-button class="close-icon" (click)="closeDialog()">
+   <mat-icon aria-label="Close icon">close</mat-icon>
+ </button>
+ 
+ <!-- popup message div -->
+ <div class="popup-message" #popupMessage>{{ popupMessageText }}</div>
+
+ <h4 class="text-center">{{data.customer ? 'Edit Customer Details' : 'Add Customer Details'}}</h4>
+ <form [formGroup]="addCustomerForm" (ngSubmit)="onSubmit()">
+   <div class="form-row">
+
+     <!-- First Name Field -->
+     <div class="form-group small-margin">
+       <mat-form-field appearance="fill" class="example-full-width">
+         <mat-label>First Name</mat-label>
+         <input matInput formControlName="firstName" (input)="addCustomerForm.get('firstName')?.markAsTouched()">
+         <mat-error *ngIf="addCustomerForm.get('firstName')?.hasError('required')">First name cannot be empty.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('firstName')?.hasError('minlength') && !addCustomerForm.get('firstName')?.hasError('pattern')">First name must be at least 2 characters long.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('firstName')?.hasError('maxlength')">First name cannot be longer than 30 characters.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('firstName')?.hasError('pattern')">First name contain only alphabets.</mat-error>
+       </mat-form-field>
+     </div>
+
+     <!-- Last Name Field -->
+     <div class="form-group">
+       <mat-form-field appearance="fill" class="example-full-width">
+         <mat-label>Last Name</mat-label>
+         <input matInput formControlName="lastName" (input)="addCustomerForm.get('lastName')?.markAsTouched()">
+         <mat-error *ngIf="addCustomerForm.get('lastName')?.hasError('required')">Last name cannot be empty.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('lastName')?.hasError('minlength') && !addCustomerForm.get('lastName')?.hasError('pattern')">Last name must be at least 2 characters long.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('lastName')?.hasError('maxlength')">Last name cannot be longer than 30 characters.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('lastName')?.hasError('pattern')">Last name contain only alphabets.</mat-error>
+       </mat-form-field>
+     </div>
+     
+   </div>
+   <div class="form-row">
+
+     <!-- Date of birth -->
+     <div class="form-group small-margin">
+       <mat-form-field appearance="fill" class="example-full-width">
+         <mat-label>Date of Birth</mat-label>
+         <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" [max]="maxDate" [matDatepickerFilter]="filterFutureDates" (input)="addCustomerForm.get('dateOfBirth')?.markAsTouched()" readonly>
+         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+         <mat-datepicker #picker></mat-datepicker>
+         <mat-hint>DD/MM/YYYY</mat-hint>
+         <mat-error *ngIf="addCustomerForm.get('dateOfBirth')?.hasError('required')">Date of birth cannot be empty.</mat-error>
+       </mat-form-field>
+     </div>
+     
+     <!-- Mobile number Field -->
+     <div class="form-group">
+       <mat-form-field appearance="fill" class="example-full-width">
+         <mat-label>Mobile No</mat-label>
+         <input matInput type="tel" formControlName="mobileNo" (input)="addCustomerForm.get('mobileNo')?.markAsTouched()">
+         <mat-error *ngIf="addCustomerForm.get('mobileNo')?.hasError('mobileExists')">Mobile Number already registered.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('mobileNo')?.hasError('required')">Mobile number cannot be empty.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('mobileNo')?.hasError('minlength') && !addCustomerForm.get('mobileNo')?.hasError('pattern')">Mobile must be at least 10 characters long.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('mobileNo')?.hasError('maxlength')">Mobile number cannot be longer than 17 characters.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('mobileNo')?.hasError('pattern')">Mobile number contain only digits.</mat-error>
+       </mat-form-field>
+     </div>
+
+   </div>
+   <div class="form-row">
+
+     <!-- Address Line One -->
+     <div class="form-group small-margin">
+       <mat-form-field appearance="fill" class="example-full-width">
+         <mat-label>Address Line 1</mat-label>
+         <input matInput formControlName="addressLineOne" (input)="addCustomerForm.get('addressLineOne')?.markAsTouched()">
+         <mat-error *ngIf="addCustomerForm.get('addressLineOne')?.hasError('required')">Address cannot be empty.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('addressLineOne')?.hasError('minlength')">Address must be at least 4 characters long.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('addressLineOne')?.hasError('maxlength')">Address cannot be longer than 70 characters.</mat-error>
+       </mat-form-field>
+     </div>
+
+     <!-- Address Line Two -->
+     <div class="form-group">
+       <mat-form-field appearance="fill" class="example-full-width">
+         <mat-label>Address Line 2</mat-label>
+         <input matInput formControlName="addressLineTwo" (input)="addCustomerForm.get('addressLineTwo')?.markAsTouched()">
+         <mat-error *ngIf="addCustomerForm.get('addressLineTwo')?.hasError('required')">Address cannot be empty.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('addressLineTwo')?.hasError('minlength')">Address must be at least 4 characters long.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('addressLineTwo')?.hasError('maxlength')">Address cannot be longer than 70 characters.</mat-error>
+       </mat-form-field>
+     </div>
+
+   </div>
+   <div class="form-row">
+
+     <!-- Age Field -->
+     <div class="form-group small-margin">
+       <mat-form-field appearance="fill" class="example-full-width">
+         <mat-label>Age</mat-label>
+         <input matInput type="text" formControlName="age" (input)="addCustomerForm.get('age')?.markAsTouched()">
+         <mat-error *ngIf="addCustomerForm.get('age')?.hasError('required')">Age cannot be empty.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('age')?.hasError('maxlength')">Age cannot be longer than 2 characters.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('age')?.hasError('pattern')">Age contain only digits.</mat-error>
+       </mat-form-field>
+     </div>
+
+     <!-- Gender Radio Buttons -->
+     <div class="form-group gender-group">
+       <label>Gender*</label>
+       <mat-radio-group formControlName="gender" class="radio-margin">
+         <mat-radio-button value="0">Male</mat-radio-button>
+         <mat-radio-button value="1">Female</mat-radio-button>
+       </mat-radio-group>
+     </div>
+
+   </div>
+   <div class="form-row">
+   
+     <!-- Email Field -->
+     <div class="form-group small-margin">
+       <mat-form-field appearance="fill" class="example-full-width-email">
+         <mat-label>Email</mat-label>
+         <input matInput type="email" formControlName="email" (input)="addCustomerForm.get('email')?.markAsTouched()">
+         <mat-error *ngIf="addCustomerForm.get('email')?.hasError('emailExists')">Email already registered.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('email')?.hasError('required')">Email cannot be empty.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('email')?.hasError('minlength')">Email must be at least 4 characters long.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('email')?.hasError('maxlength')">Email cannot be longer than 30 characters.</mat-error>
+         <mat-error *ngIf="addCustomerForm.get('email')?.hasError('pattern') && !addCustomerForm.get('email')?.hasError('minlength')">Invalid email.</mat-error>
+       </mat-form-field>
+     </div>
+     
+   </div>
+
+   <div class="text-center mt-4">
+     <button mat-raised-button color="primary" type="submit" [disabled]="addCustomerForm.invalid">Submit</button>
+     <button mat-raised-button color="warn" type="button" (click)="closeDialog()">Cancel</button>
+   </div>
+ </form>
+</div>
+
+<!-- Loader div -->
+<div class="loader-overlay" *ngIf="showLoader"></div>
+<div class="loader-container" *ngIf="showLoader">
+ <mat-spinner diameter="32" color="primary"></mat-spinner>
+</div>
