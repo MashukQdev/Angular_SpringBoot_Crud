@@ -13,7 +13,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddNewCustomerComponent } from './components/add-new-customer/add-new-customer.component';
 import { MatInputModule } from '@angular/material/input';
-import { UpdateCustomerComponent } from './components/update-customer/update-customer.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
@@ -29,7 +28,6 @@ import { DeleteCustomerComponent } from './components/delete-customer/delete-cus
     AppComponent,
     GetAllCustomersComponent,
     AddNewCustomerComponent,
-    UpdateCustomerComponent,
     DeleteCustomerComponent
   ],
   imports: [

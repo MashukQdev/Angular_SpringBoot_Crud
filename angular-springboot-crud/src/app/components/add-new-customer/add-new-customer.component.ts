@@ -1,8 +1,7 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from '../../service/customer.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ValidationService } from '../../service/validation.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -15,41 +14,40 @@ export class AddNewCustomerComponent {
   addCustomerForm! : FormGroup
   showLoader: boolean = false;      // Variable to control the loader visibility
   maxDate: Date = new Date();       // for disabled future dates in date of birth option
+  popupMessageText: string = '';
 
   @ViewChild('popupMessage', { static: false }) popupMessage!: ElementRef;    // reference the popup message
 
   constructor(private customerService: CustomerService, 
               private fb: FormBuilder, 
               public dialogRef: MatDialogRef<AddNewCustomerComponent>,
-              private validationService: ValidationService, 
               private renderer: Renderer2,
-              private dialog: MatDialog,) { }
+              private dialog: MatDialog,
+              @Inject(MAT_DIALOG_DATA) public data: any ) { }
 
   /**
-   * Initializes the addCustomerForm FormGroup with validation rules for each form control.
+   * Calls initializeForm method
    */            
   ngOnInit() {
-     this.addCustomerForm = this.fb.group({
-      firstName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(30), Validators.pattern(/^[a-zA-Z]+$/)]],
-      lastName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(30), Validators.pattern(/^[a-zA-Z]+$/)]],
-      dateOfBirth: [null, [Validators.required]],
-      mobileNo: [null, [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.minLength(10), Validators.maxLength(17)]],
-      addressLineOne: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(70)]],
-      addressLineTwo: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(70)]],
-      age: [null, [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.minLength(1), Validators.maxLength(3)]],
-      gender: ['0', []],
-      email: [null, [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/), Validators.maxLength(30)]]
-     });
+    this.initializeForm();
   }
 
   /**
-   * Checks if a form control is invalid based on its control name. 
-   * @param controlName The name of the form control to check.
-   * @returns {boolean} - True if the control is invalid, otherwise false.
+   * Initializes the addCustomerForm FormGroup with validation rules for each form control.
    */
-  isInvalid(controlName: string): boolean {
-    const control = this.addCustomerForm.get(controlName);
-    return !!control?.invalid && (control.dirty || control.touched);
+  initializeForm() {
+    this.addCustomerForm = this.fb.group({
+      id:[this.data.customer ? this.data.customer.id : '' ],
+      firstName: [this.data.customer ? this.data.customer.firstName: '', [Validators.required, Validators.minLength(2), Validators.maxLength(30), Validators.pattern(/^[a-zA-Z]+$/)]],
+      lastName: [this.data.customer ? this.data.customer.lastName: '', [Validators.required, Validators.minLength(2), Validators.maxLength(30), Validators.pattern(/^[a-zA-Z]+$/)]],
+      dateOfBirth: [this.data.customer ? this.data.customer.dateOfBirth: '', [Validators.required]],
+      mobileNo: [this.data.customer ? this.data.customer.mobileNo: '', [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.minLength(10), Validators.maxLength(17)]],
+      addressLineOne: [this.data.customer ? this.data.customer.addressLineOne: '', [Validators.required, Validators.minLength(4), Validators.maxLength(70)]],
+      addressLineTwo: [this.data.customer ? this.data.customer.addressLineTwo: '', [Validators.required, Validators.minLength(4), Validators.maxLength(70)]],
+      age: [this.data.customer ? this.data.customer.age: '', [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.maxLength(2)]],
+      gender: [this.data.customer ? this.data.customer.gender.toString() : '0', []],
+      email: [this.data.customer ? this.data.customer.email: '', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/), Validators.maxLength(30)]]
+     });
   }
 
   /**
@@ -71,123 +69,38 @@ export class AddNewCustomerComponent {
   }
 
   /**
-   * Retrieves the error message for the first name form control.
-   * @returns {string} - The error message for the first name form control to show.
-   */
-  getFirstNameErrorMessage(): string {
-    return this.validationService.getFirstNameErrorMessage(this.addCustomerForm.get('firstName')!);
-  }
-
-  /**
-   * Retrieves the error message for the last name form control.
-   * @returns {string} - The error message for the last name form control to show.
-   */
-  getLastNameErrorMessage(): string {
-    return this.validationService.getLastNameErrorMessage(this.addCustomerForm.get('lastName')!);
-  }
-
-  /**
-   * Retrieves the error message for the date of birth form control.
-   * @returns {string} - The error message for the date of birth form control to show.
-   */
-  getDateOfBirthErrorMessage(): string {
-    return this.validationService.getDateOfBirthErrorMessage(this.addCustomerForm.get('dateOfBirth')!);
-  }
-
-  /**
-   * Retrieves the error message for the mobile number form control.
-   * @returns {string} - The error message for the mobile number form control to show.
-   */
-  getMobileNoErrorMessage(): string {
-    return this.validationService.getMobileNoErrorMessage(this.addCustomerForm.get('mobileNo')!);
-  }
-
-  /**
-   * Retrieves the error message for the address line one form control.
-   * @returns {string} - The error message for the address line one form control to show.
-   */
-  getAddressOneErrorMessage(): string {
-    return this.validationService.getAddressErrorMessage(this.addCustomerForm.get('addressLineOne')!);
-  }
-
-  /**
-   * Retrieves the error message for the address line two form control.
-   * @returns {string} - The error message for the address line two form control to show.
-   */
-  getAddressTwoErrorMessage(): string {
-    return this.validationService.getAddressErrorMessage(this.addCustomerForm.get('addressLineTwo')!);
-  }
-  
-  /**
-   * Retrieves the error message for the age form control.
-   * @returns {string} - The error message for the age form control to show.
-   */
-  getAgeErrorMessage(): string {
-    return this.validationService.getAgeErrorMessage(this.addCustomerForm.get('age')!);
-  }
-
-  /**
-   * Retrieves the error message for the email form control.
-   * @returns {string} - The error message for the email form control to show.
-   */
-  getEmailErrorMessage(): string {
-    return this.validationService.getEmailErrorMessage(this.addCustomerForm.get('email')!);
-  }
-
-  /**
-   * Perform form submission for add a new customer.
+   * Perform form submission for add and update a customer.
    * Checks mobile number and email availability using customerService methods and show error if registered.
    * Shows loader and popup message on successful form submission.
    */
   onSubmit(): void {
     if (this.addCustomerForm.valid) {
-      this.customerService.addCustomerDetails(this.addCustomerForm.value).subscribe(
-        response => {
-          if (response.includes('Data saved')) {     // if mobile number and email does not duplicate then submit
-            // Show loader and popup message 
-            this.showLoader = true;
-            setTimeout(() => {
-              this.showPopupMessage(() => {
-                // Simulate form submission delay
-                setTimeout(() => {
-                  // Hide loader after form submission
-                  this.showLoader = false;
-
-                  // Close the main dialog after 1 second
-                  setTimeout(() => {
-                    this.closeDialog();
-                  }, 0); // Close main dialog after 1 second
-                }, 0); // Simulated delay of 1 second
-              });
-            }, 1000); // Show popup message after 1 second
-          } else {
-            // Handle the case where either mobile or email is already registered
-            if (response.includes('Mobile number and email already registered')) {
-              // Show error message for mobile number and email
-              this.addCustomerForm.get('mobileNo')!.setErrors({ mobileExists: true });
-              this.addCustomerForm.get('email')!.setErrors({ emailExists: true });
-
-            } else if (response.includes('Mobile number already registered')) {
-              // Show error message for mobile number
-              this.addCustomerForm.get('mobileNo')!.setErrors({ mobileExists: true });
-
-            } else if(response.includes('Email already registered')) {
-              // Show error message for email
-              this.addCustomerForm.get('email')!.setErrors({ emailExists: true });
-            }
+      if(this.data.customer) {
+        this.customerService.updateCustomerDetails(this.addCustomerForm.value).subscribe(
+          response => {
+            this.popupMessageText = 'Data updated successfully.';
+            this.showRoungLoader();
+          },
+          error => {
+            this.getMobileAndEmailAlreadyExistsError(error);
           }
-        },
-        error => {
-          // Handle error from the service
-          console.error('Error checking mobile number or email', error);
-        }
-      );
+        );
+      } else {
+        this.popupMessageText = 'Data added successfully.';
+        this.customerService.addCustomerDetails(this.addCustomerForm.value).subscribe(
+          response => {
+            this.showRoungLoader();
+          },
+          error => {
+            this.getMobileAndEmailAlreadyExistsError(error);
+          }
+        );
+      }
     }
   }
 
   /**
-   * Show popup message for successfull form submission.
-   * Adds customer data to the database using customer service 
+   * Show popup message for successfull form submission. 
    */
   showPopupMessage(callback: Function): void {
     this.renderer.setStyle(this.popupMessage.nativeElement, 'display', 'block');
@@ -195,6 +108,44 @@ export class AddNewCustomerComponent {
       this.renderer.setStyle(this.popupMessage.nativeElement, 'display', 'none');
       callback();
     }, 1000); // Hide popup message after 1 second
+  }
+
+  /**
+   * Show loader for successfull form submission. 
+   */
+  showRoungLoader() {
+    this.showLoader = true;
+    setTimeout(() => {
+      this.showPopupMessage(() => {
+        setTimeout(() => {
+          this.showLoader = false;
+          setTimeout(() => {
+            this.closeDialog();
+          }, 0); // Close main dialog after 1 second
+        }, 0); // Simulated delay of 1 second
+      });
+    }, 1000); // Show popup message after 1 second
+  }
+
+  /**
+   * Handles errors related to the existence of mobile numbers and email addresses.
+   * @param error The error object containing the error message
+   */
+  getMobileAndEmailAlreadyExistsError(error: any) {
+    const errorMessage = error?.error || '';
+
+     // Handle the case where both mobile or email is already registered
+     if (errorMessage.includes('Mobile') && errorMessage.includes('Email')) {
+      // Show error message for mobile number and email
+      this.addCustomerForm.get('mobileNo')!.setErrors({ mobileExists: true });
+      this.addCustomerForm.get('email')!.setErrors({ emailExists: true });
+    } else if (errorMessage.includes('Mobile')) {
+      // Show error message for mobile number
+      this.addCustomerForm.get('mobileNo')!.setErrors({ mobileExists: true });
+    } else if(errorMessage.includes('Email')) {
+      // Show error message for email
+      this.addCustomerForm.get('email')!.setErrors({ emailExists: true });
+    }
   }
 
 }

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CustomerService {
-  private basic_url = 'http://localhost:8070';   // common url path
+  private basic_url = 'http://localhost:8070/customer';   // common url path
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +17,7 @@ export class CustomerService {
    * @returns An Observable response containing the list of customers in json format.
    */
   getAllCustomers(): Observable<any> {
-    return this.http.get(this.basic_url + "/customers");
+    return this.http.get(this.basic_url + "/getall");
   }
 
   /**
@@ -26,7 +26,7 @@ export class CustomerService {
    * @returns An Observable string response from the server in plain text format.
    */
   addCustomerDetails(customer: any): Observable<string> {
-    return this.http.post(this.basic_url + "/customer/add", customer, { responseType: 'text' as 'json' }) as Observable<string>;
+    return this.http.post<string>(this.basic_url + "/add", customer);
   }
 
   /**
@@ -35,8 +35,8 @@ export class CustomerService {
    * @param customer The customer object containing the updated details of the customer.
    * @returns  An Observable string response from the server in plain text format.
    */
-  updateCustomerDetails(id: number, customer: any): Observable<string> {
-    return this.http.put<string>(`${this.basic_url}/customer/update/${id}`, customer, {responseType: 'text' as 'json'});
+  updateCustomerDetails(customer: any): Observable<string> {
+    return this.http.put<string>(this.basic_url + "/update", customer);
   }
 
   /**

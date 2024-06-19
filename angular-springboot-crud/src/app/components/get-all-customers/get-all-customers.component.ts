@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { CustomerService } from '../../service/customer.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddNewCustomerComponent } from '../add-new-customer/add-new-customer.component';
-import { UpdateCustomerComponent } from '../update-customer/update-customer.component';
 import { DeleteCustomerComponent } from '../delete-customer/delete-customer.component';
 
 @Component({
@@ -51,7 +50,7 @@ export class GetAllCustomersComponent {
    * @param customer The customer object to be updated.
    */
   updateCustomerPopup(customer: any): void {
-    const dialogRef = this.dialog.open(UpdateCustomerComponent, {
+    const dialogRef = this.dialog.open(AddNewCustomerComponent, {
       width: '1000px', // Set the width of the dialog
       height: '700px',
       maxWidth: 'none',
