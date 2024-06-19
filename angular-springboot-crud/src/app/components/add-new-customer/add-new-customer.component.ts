@@ -135,7 +135,7 @@ export class AddNewCustomerComponent {
     const errorMessage = error?.error || '';
 
      // Handle the case where both mobile or email is already registered
-     if (errorMessage.includes('Mobile') && errorMessage.includes('Email')) {
+    if (errorMessage.includes('Mobile') && errorMessage.includes('Email')) {
       // Show error message for mobile number and email
       this.addCustomerForm.get('mobileNo')!.setErrors({ mobileExists: true });
       this.addCustomerForm.get('email')!.setErrors({ emailExists: true });
