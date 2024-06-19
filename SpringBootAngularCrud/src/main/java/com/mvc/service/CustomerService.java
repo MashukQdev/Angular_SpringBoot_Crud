@@ -1,9 +1,8 @@
 package com.mvc.service;
 
 import java.util.List;
-
+import org.springframework.http.ResponseEntity;
 import com.mvc.dto.CustomerDto;
-import com.mvc.entity.Customer;
 
 /**
  * Service interface for managing customer-related operations.
@@ -14,22 +13,15 @@ public interface CustomerService {
 	 * Retrieves a list of all customers.
 	 * @return List of Customer objects.
 	 */
-	public List<Customer> getAllCustomerList();
+	public List<CustomerDto> getAllCustomerList();
 	
 	/**
-	 * Add new customer
-	 * @param customerDto The customer data to be added.
-	 * @return A string containing a message.
+	 * Adds a new customer using the provided dto.
+	 * @param customerDto The data transfer object containing customer details
+	 * @return a {@link ResponseEntity} containing the result of the add customer operation.
 	 */
-	public String addCustomer(CustomerDto customerDto);
+	public ResponseEntity<?> addCustomer(CustomerDto customerDto);
 	
-	/**
-	 * Updates details of a customer by ID.
-	 * @param id The customer ID.
-	 * @param customer The updated customer details.
-	 * @return A string containing a message.
-	 */
-	public String updateCustomerDetails(long id, CustomerDto updatedCutomerDto);
 	
 	/**
 	 * Delete a customer by ID.

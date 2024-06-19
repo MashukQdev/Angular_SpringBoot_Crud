@@ -1,7 +1,6 @@
 package com.mvc.dto;
 
 import java.sql.Date;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,10 +8,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class CustomerDto {
 
+	//id which is unique
+	private long id;
+	
 	@NotEmpty(message = "First name cannot be empty.")
 	@Pattern(regexp = "^[a-zA-Z]+$", message = "First name conatin only alphabets.")
 	@Size(min = 2, message = "First name must be at least 2 characters long.")
@@ -46,7 +51,7 @@ public class CustomerDto {
 	
 	@NotNull(message = "Age cannot be empty.")
 	@Min(value = 1, message = "Age must be at least 1 year.")
-	@Max(value = 150, message = "Age cannot be greater than 150 years.")
+	@Max(value = 99, message = "Age cannot be greater than 99 years.")
 	private int age;
 	
 	@NotNull(message = "Gender cannot be empty.")

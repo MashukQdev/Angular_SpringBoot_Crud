@@ -2,7 +2,6 @@ package com.mvc.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import com.mvc.entity.Customer;
 
 /**
@@ -24,5 +23,21 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	 * @return True if a customer with the email exists, false otherwise.
 	 */
 	public boolean existsByEmail(String email);          // JPQL Query
+	
+	/**
+	 * Checks if an email exists for a customer, excluding a specific customer ID.
+	 * @param email The email to check.
+	 * @param id The ID of the customer to exclude from the check
+	 * @return True, if the email exists for a customer other than the specified ID, false otherwise.
+	 */
+	public boolean existsByEmailAndIdNot(String email, long id);
+	
+	/**
+	 * Checks if a mobile number exists for a customer, excluding a specific customer ID.
+	 * @param mobileNo The mobile number to check.
+	 * @param id The ID of the customer to exclude from the check
+	 * @return True, if the mobile number exists for a customer other than the specified ID, false otherwise.
+	 */
+	public boolean existsByMobileNoAndIdNot(String mobileNo, long id);
 	
 }

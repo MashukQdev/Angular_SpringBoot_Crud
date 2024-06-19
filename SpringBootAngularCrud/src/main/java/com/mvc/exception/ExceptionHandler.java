@@ -21,12 +21,11 @@ public class ExceptionHandler {
 		Map<String, String> errors = new HashMap<>();    //store the errors
 		
 		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
-            		String errorMessage = error.getDefaultMessage();
-
-            		errors.put(fieldName, errorMessage);
+		String fieldName = ((FieldError) error).getField();
+            	String errorMessage = error.getDefaultMessage();
+            	errors.put(fieldName, errorMessage);
 		});
-		
 		return errors;
 	}
+
 }
