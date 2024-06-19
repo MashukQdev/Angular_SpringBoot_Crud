@@ -41,7 +41,7 @@ public class CustomerController {
 	 */
 	@PostMapping("/add")
 	public ResponseEntity<?> addCusomer(@Valid @RequestBody CustomerDto customerDto) {
-		ResponseEntity response = customerService.addCustomer(customerDto);
+		ResponseEntity<?> response = customerService.addCustomer(customerDto);
 		if(response.getStatusCode() == HttpStatus.BAD_REQUEST) {
 			return response;
 		} else if(response.getStatusCode() == HttpStatus.OK) {
@@ -59,7 +59,7 @@ public class CustomerController {
 	 */
 	@PutMapping("/update")
 	public ResponseEntity<?> updateCustomer(@Valid @RequestBody CustomerDto customerDto) {
-		ResponseEntity response = customerService.addCustomer(customerDto);
+		ResponseEntity<?> response = customerService.addCustomer(customerDto);
 		if(response.getStatusCode() == HttpStatus.BAD_REQUEST) {
 			return response;
 		} else if(response.getStatusCode() == HttpStatus.OK) {
