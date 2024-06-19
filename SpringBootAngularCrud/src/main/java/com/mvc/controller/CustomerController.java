@@ -58,7 +58,7 @@ public class CustomerController {
 	 * @return A ResponseEntity string containing a message.
 	 */
 	@PutMapping("/update")
-	public ResponseEntity<String> updateCustomer(@Valid @RequestBody CustomerDto customerDto) {
+	public ResponseEntity<?> updateCustomer(@Valid @RequestBody CustomerDto customerDto) {
 		ResponseEntity response = customerService.addCustomer(customerDto);
 		if(response.getStatusCode() == HttpStatus.BAD_REQUEST) {
 			return response;
